@@ -2,13 +2,15 @@
 <div class="artists">
  {{#if albums.length}}
       {{#each albums}}
+       <a href="/tracks/{{this.id}}">
       <div class="info">
             <p>{{ this.name }}</p> 
 
-      <img src="{{images.[2].url}}">
+      <img src="{{images.[1].url}}">
 
-        <a href="/tracks/{{this.id}}">View Tracks</a>
+   
       </div>
+      </a>
 
 
      {{/each}}

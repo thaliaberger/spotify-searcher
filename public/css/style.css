@@ -13,6 +13,10 @@ body {
   margin-bottom: 60px;
 }
 
+body a {
+  text-decoration: none;
+}
+
 /* NAVBAR */
 
 .navbar {
@@ -88,14 +92,11 @@ button {
 .info {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
-  background-color: rgb(255, 133, 133, 0.3);
-  border-radius: 10px;
   width: 140px;
-  height: 180px;
+  height: 200px;
   margin: 20px 40px;
-  padding: 10px;
 }
 
 .info:hover {
@@ -103,9 +104,9 @@ button {
 }
 
 img {
-  width: 100px;
-  height: 100px;
-  margin: 10px;
+  width: 130px;
+  height: 130px;
+  margin: 5px 0;
 }
 
 .info p {

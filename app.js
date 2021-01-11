@@ -6,8 +6,8 @@ const app = express();
 
 app.set("view engine", "hbs");
 app.set("views", __dirname + "/views");
-app.use(express.static(__dirname + "/public")),
-  { index: false, extensions: ["html"] };
+app.use(express.static(__dirname + "/public"));
+hbs.registerPartials(__dirname + "/views/partials");
 
 const spotifyApi = new SpotifyWebApi({
   clientId: process.env.CLIENT_ID,

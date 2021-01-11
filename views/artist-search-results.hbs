@@ -1,15 +1,17 @@
-<link rel="stylesheet" href="../public/styles/style.css">
+
 <div class="artists">
     {{#if artists.length}}
 
       {{#each artists}}
+      <a href="/albums/{{this.id}}">
 <div class="info">
    <p>{{ this.name}}</p>
 
       <img src="{{images.[2].url}}">
 
-        <a href="/albums/{{this.id}}">View Albums</a>
+       
 </div>
+</a>
      {{/each}}
 
   {{else}}
