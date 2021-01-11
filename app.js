@@ -1,4 +1,5 @@
 require("dotenv").config();
+
 const express = require("express");
 const hbs = require("hbs");
 const SpotifyWebApi = require("spotify-web-api-node");
@@ -21,7 +22,7 @@ spotifyApi
   );
 
 app.get("/", (req, res) => {
-  return res.render("home");
+  res.render("home");
 });
 
 app.get("/artist-search", (req, res) => {
@@ -30,41 +31,40 @@ app.get("/artist-search", (req, res) => {
   spotifyApi
     .searchArtists(search)
     .then((data) => {
-      console.log("The received data from the API: ", data.body.artists.items);
-      return res.render("artist-search", {
-        artists: data.body.artists.items,
-      });
+      const response = data.body.artists.items;
+      return res.render("artist-search", { artist: response });
     })
     .catch((err) =>
       console.log("The error while searching artists occurred: ", err)
     );
 });
 
-app.get("/albums/:id", (req, res, next) => {
-  const { id } = req.params;
+app.get("/albums/:artistId", (req, res, next) => {
+  const { artistId } = req.params;
 
   spotifyApi
-    .getArtistAlbums(id)
+    .getArtistAlbums(artistId)
     .then((data) => {
-      return res.render("albums", {
-        albums: data.body.items,
-      });
+      const albums = data.body.items;
+      return res.render("albums", { albums: albums });
     })
-
-    .catch((err) => console.log("error", err));
+    .catch((err) => {
+      console.error(err);
+    });
 });
 
-app.get("/tracks/:id", (req, res) => {
-  const { id } = req.params;
+app.get("/tracks/:albumId", (req, res, next) => {
+  const { albumId } = req.params;
 
   spotifyApi
-    .getAlbumTracks(id)
+    .getAlbumTracks(albumId)
     .then((data) => {
-      return res.render("tracks", {
-        tracks: data.body.items,
-      });
+      const tracks = data.body.items;
+      return res.render("tracks", { track: tracks });
     })
-    .catch((err) => console.log("error", err));
+    .catch((err) => {
+      console.error(err);
+    });
 });
 
 var PORTA = process.env.PORT || 8080;
