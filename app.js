@@ -32,7 +32,7 @@ app.get("/artist-search", (req, res) => {
     .searchArtists(search)
     .then((data) => {
       console.log("The received data from the API: ", data.body.artists.items);
-      return res.render("artist-search-results", {
+      return res.render("artist-search", {
         artists: data.body.artists.items,
       });
     })
