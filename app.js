@@ -6,7 +6,8 @@ const app = express();
 
 app.set("view engine", "hbs");
 app.set("views", __dirname + "/views");
-app.use(express.static(__dirname + "/public"));
+app.use(express.static(__dirname + "/public")),
+  { index: false, extensions: ["html"] };
 
 const spotifyApi = new SpotifyWebApi({
   clientId: process.env.CLIENT_ID,
@@ -67,4 +68,4 @@ app.get("/tracks/:id", (req, res) => {
     .catch((err) => console.log("error", err));
 });
 
-app.listen(3000, () => console.log("My Spotify project running on port 3000"));
+app.listen(4000, () => console.log("My Spotify project running on port 4000"));
