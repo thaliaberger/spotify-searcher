@@ -14,51 +14,61 @@ const spotifyApi = new SpotifyWebApi({
   clientSecret: process.env.CLIENT_SECRET,
 });
 
-(async function configSpotifyApi() {
-  try {
-    const result = await spotifyApi.clientCredentialsGrant();
-    await spotifyApi.setAccessToken(result.body["access_token"]);
+spotifyApi
+  .clientCredentialsGrant()
+  .then((data) => spotifyApi.setAccessToken(data.body["access_token"]))
+  .catch((error) =>
+    console.log("Something went wrong when retrieving an access token", error)
+  );
 
-    // ROUTES
-    app.get("/", (req, res) => {
-      res.render("home");
-    });
+app.get("/", (req, res) => {
+  res.render("home");
+});
 
-    app.get("/artist-search", (req, res) => {
-      const { search } = req.query;
+app.get("/artist-search", (req, res) => {
+  const { search } = req.query;
 
-      spotifyApi
-        .searchArtists(search)
-        .then((data) => {
-          const response = data.body.artists.items;
-          return res.render("artist-search", { artist: response });
-        })
-        .catch((err) =>
-          console.log("The error while searching artists occurred: ", err)
-        );
-    });
-
-    app.get("/albums/:artistId", async (req, res) => {
-      const artistAlbums = await spotifyApi.getArtistAlbums(
-        req.params.artistId
-      );
-      const albums = artistAlbums.body.items.map((item) => {
-        item.name = item.name.slice(0, 20);
-        return item;
-      });
-      res.render("albums", { albums: albums, artist: albums[0].artists[0] });
-    });
-
-    app.get("/tracks/:tracksId", async (req, res) => {
-      const albumTracks = await spotifyApi.getAlbumTracks(req.params.tracksId);
-      const tracks = albumTracks.body.items;
-      res.render("tracks", { tracks });
-    });
-
-    app.listen(process.env.PORT || 3000, () =>
-      console.log("My Spotify project running on port 3000 🎧 🥁 🎸 🔊")
+  spotifyApi
+    .searchArtists(search)
+    .then((data) => {
+      const response = data.body.artists.items;
+      return res.render("artist-search", { artist: response });
+    })
+    .catch((err) =>
+      console.log("The error while searching artists occurred: ", err)
     );
-  } catch (err) {
-    console.log("Something went wrong when retrieving an access token", err);
-  }
-})();
+});
+
+app.get("/albums/:artistId", (req, res) => {
+  const { artistId } = req.params;
+
+  spotifyApi
+    .getArtistAlbums(artistId)
+    .then((data) => {
+      const albums = data.body.items;
+      return res.render("albums", { albums: albums });
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+});
+
+app.get("/tracks/:albumId", (req, res) => {
+  const { albumId } = req.params;
+
+  spotifyApi
+    .getAlbumTracks(albumId)
+    .then((data) => {
+      const tracks = data.body.items;
+      return res.render("tracks", { tracks: tracks });
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+});
+
+// process.env.PORT
+
+app.listen(3000, () =>
+  console.log(`My Spotify project running on port 3000 🎧 🥁 🎸 🔊`)
+);
