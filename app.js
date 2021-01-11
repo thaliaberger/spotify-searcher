@@ -7,7 +7,6 @@ const app = express();
 app.set("view engine", "hbs");
 app.set("views", __dirname + "/views");
 app.use(express.static(__dirname + "/public"));
-hbs.registerPartials(__dirname + "/views/partials");
 
 const spotifyApi = new SpotifyWebApi({
   clientId: process.env.CLIENT_ID,
@@ -47,7 +46,7 @@ app.get("/albums/:id", (req, res, next) => {
   spotifyApi
     .getArtistAlbums(id)
     .then((data) => {
-      res.render("albums", {
+      return res.render("albums", {
         albums: data.body.items,
       });
     })
@@ -61,7 +60,7 @@ app.get("/tracks/:id", (req, res) => {
   spotifyApi
     .getAlbumTracks(id)
     .then((data) => {
-      res.render("tracks", {
+      return res.render("tracks", {
         tracks: data.body.items,
       });
     })
