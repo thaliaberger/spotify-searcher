@@ -1,0 +1,19 @@
+
+<div class="artists">
+ {{#if albums.length}}
+      {{#each albums}}
+      <div class="info">
+            <p>{{ this.name }}</p> 
+
+      <img src="{{images.[2].url}}">
+
+        <a href="/tracks/{{this.id}}">View Tracks</a>
+      </div>
+
+
+     {{/each}}
+
+  {{else}}
+  <p>No results.</p>
+  {{/if}}
+</div>
