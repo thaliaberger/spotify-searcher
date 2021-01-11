@@ -20,13 +20,28 @@ body a {
 /* NAVBAR */
 
 .navbar {
-  height: 50px;
+  display: flex;
+  justify-content: center;
+  height: 90px;
 }
 
 .navbar a {
   display: flex;
   justify-content: center;
   align-items: center;
+  background: -webkit-linear-gradient(#ff8585, #ffb396);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-decoration: none;
+  font-size: 3em;
+  font-family: "Lobster", cursive;
+  padding-top: 6px;
+}
+
+.goback {
+  position: absolute;
+  top: 0;
+  left: 20px;
   background: -webkit-linear-gradient(#ff8585, #ffb396);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -100,7 +115,7 @@ button {
 }
 
 .info:hover {
-  background-color: #ff4646;
+  background-color: hsl(0, 100%, 64%);
 }
 
 img {
