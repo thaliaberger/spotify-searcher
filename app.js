@@ -2,7 +2,9 @@ require("dotenv").config();
 
 const express = require("express");
 const hbs = require("hbs");
+
 const SpotifyWebApi = require("spotify-web-api-node");
+
 const app = express();
 
 app.set("view engine", "hbs");
@@ -29,7 +31,7 @@ app.get("/artist-search", (req, res) => {
   const { search } = req.query;
 
   spotifyApi
-    .searchArtists(search)
+    .searchArtists(search.toLowerCase())
     .then((data) => {
       const response = data.body.artists.items;
       return res.render("artist-search", { artist: response });
@@ -39,36 +41,36 @@ app.get("/artist-search", (req, res) => {
     );
 });
 
-app.get("/albums/:artistId", (req, res) => {
+app.get("/albums/:artistId", (req, res, next) => {
   const { artistId } = req.params;
 
   spotifyApi
     .getArtistAlbums(artistId)
     .then((data) => {
       const albums = data.body.items;
-      return res.render("albums", { albums: albums });
+      return res.render("albums", { album: albums });
     })
     .catch((err) => {
       console.error(err);
     });
 });
 
-app.get("/tracks/:albumId", (req, res) => {
+app.get("/tracks/:albumId", (req, res, next) => {
   const { albumId } = req.params;
 
   spotifyApi
     .getAlbumTracks(albumId)
     .then((data) => {
       const tracks = data.body.items;
-      return res.render("tracks", { tracks: tracks });
+      return res.render("tracks", { track: tracks });
     })
     .catch((err) => {
       console.error(err);
     });
 });
 
-// process.env.PORT
-
-app.listen(3000, () =>
-  console.log(`My Spotify project running on port 3000 🎧 🥁 🎸 🔊`)
+app.listen(process.env.PORT, () =>
+  console.log(
+    `My Spotify project running on port ${process.env.PORT} 🎧 🥁 🎸 🔊`
+  )
 );
