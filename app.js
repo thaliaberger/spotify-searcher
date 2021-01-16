@@ -9,22 +9,18 @@ app.set("views", __dirname + "/views");
 app.use(express.static(__dirname + "/public"));
 hbs.registerPartials(__dirname + "/views/partials");
 
-// require spotify-web-api-node package here:
 const SpotifyWebApi = require("spotify-web-api-node");
 
-// setting the spotify-api goes here:
 const spotifyApi = new SpotifyWebApi({
   clientId: process.env.CLIENT_ID,
   clientSecret: process.env.CLIENT_SECRET,
 });
 
-// Retrieve an access token
 (async function configSpotifyApi() {
   try {
     const result = await spotifyApi.clientCredentialsGrant();
     await spotifyApi.setAccessToken(result.body["access_token"]);
 
-    // ROUTES
     app.get("/", (req, res) => {
       res.render("home");
     });
