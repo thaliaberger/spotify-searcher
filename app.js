@@ -14,8 +14,8 @@ const SpotifyWebApi = require("spotify-web-api-node");
 
 // setting the spotify-api goes here:
 const spotifyApi = new SpotifyWebApi({
-  clientId: process.env.CLIENT_ID,
-  clientSecret: process.env.CLIENT_SECRET,
+  clientId: "9582ce1bdce64a6388d648f3ae57ab64",
+  clientSecret: "aa02aa78fef248eba261172f546aaff6",
 });
 
 // Retrieve an access token
